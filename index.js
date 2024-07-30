@@ -1,15 +1,15 @@
 //Parameters
-let blockSize = 50;
+let blockSize = 100;
 let cutBotomTails = false;
 let mainColor = 0;
 let range = 50;
-let saturation = 60;
+let lightness = 40;
 
 let widthBlockSize;
 let heightBlockSize;
 let width;
 let height;
-let tilesSaturation = [];
+let tilesLightness = [];
 let colorsPalette = [];
 for (let i = mainColor - range / 2; i <= mainColor + range / 2; i++) {
   colorsPalette.push(i);
@@ -31,7 +31,7 @@ function setSizes() {
 }
 
 function upSatutation(id) {
-  tilesSaturation[id] = 100;
+  tilesLightness[id] = lightness + 20;
 }
 
 function addTiles() {
@@ -39,21 +39,19 @@ function addTiles() {
   const block = document.createElement("div");
   block.id = "block";
   const tiles = [];
-  tilesSaturation = [];
+  tilesLightness = [];
   for (let i = 0; i < height * width; i++) {
     tiles.push(Math.floor(Math.random() * range));
-    tilesSaturation.push(saturation);
+    tilesLightness.push(lightness);
     const tile = document.createElement("div");
     tile.id = i;
     tile.onmouseover = () => {
       upSatutation(i);
     };
-    //colors
-    tile.style.border = `${blockSize / 25}px solid black`;
 
+    tile.style.border = `${blockSize / 25}px solid black`;
     tile.style.boxSizing = `border-box`;
 
-    //sizes
     tile.style.width = `${widthBlockSize}px`;
     tile.style.height = `${heightBlockSize}px`;
     block.appendChild(tile);
@@ -66,10 +64,10 @@ function drawTiles() {
   tiles.forEach((color, index) => {
     document.getElementById(
       index
-    ).style.backgroundColor = `hsl(${colorsPalette[color]}, ${tilesSaturation[index]}%, 50%`;
+    ).style.backgroundColor = `hsl(${colorsPalette[color]}, 100%, ${tilesLightness[index]}%`;
     tiles[index] = (color + Math.floor(Math.random() * 2)) % (colorsPalette.length + 1);
-    if (tilesSaturation[index] > saturation) {
-      tilesSaturation[index] -= 1;
+    if (tilesLightness[index] > lightness) {
+      tilesLightness[index] -= 1;
     }
   });
 }
@@ -79,7 +77,7 @@ let tiles = addTiles();
 
 setInterval(() => {
   drawTiles();
-}, 40);
+}, 30);
 window.addEventListener("resize", () => {
   setSizes();
   tiles = addTiles();
