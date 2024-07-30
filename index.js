@@ -1,14 +1,15 @@
 //Parameters
-let blockSize = 100;
+let blockSize = 50;
 let cutBotomTails = false;
-let mainColor = 240;
+let mainColor = 0;
 let range = 50;
+let saturation = 60;
 
 let widthBlockSize;
 let heightBlockSize;
 let width;
 let height;
-
+let tilesSaturation = [];
 let colorsPalette = [];
 for (let i = mainColor - range / 2; i <= mainColor + range / 2; i++) {
   colorsPalette.push(i);
@@ -29,17 +30,26 @@ function setSizes() {
   }
 }
 
+function upSatutation(id) {
+  tilesSaturation[id] = 100;
+}
+
 function addTiles() {
   document.getElementById("block").remove();
   const block = document.createElement("div");
   block.id = "block";
   const tiles = [];
+  tilesSaturation = [];
   for (let i = 0; i < height * width; i++) {
     tiles.push(Math.floor(Math.random() * range));
+    tilesSaturation.push(saturation);
     const tile = document.createElement("div");
     tile.id = i;
+    tile.onmouseover = () => {
+      upSatutation(i);
+    };
     //colors
-    tile.style.border = `5px solid black`;
+    tile.style.border = `${blockSize / 25}px solid black`;
 
     tile.style.boxSizing = `border-box`;
 
@@ -54,8 +64,13 @@ function addTiles() {
 
 function drawTiles() {
   tiles.forEach((color, index) => {
-    document.getElementById(index).style.backgroundColor = `hsl(${colorsPalette[color]}, 70%, 50%`;
+    document.getElementById(
+      index
+    ).style.backgroundColor = `hsl(${colorsPalette[color]}, ${tilesSaturation[index]}%, 50%`;
     tiles[index] = (color + Math.floor(Math.random() * 2)) % (colorsPalette.length + 1);
+    if (tilesSaturation[index] > saturation) {
+      tilesSaturation[index] -= 1;
+    }
   });
 }
 
