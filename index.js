@@ -32,7 +32,7 @@ function drawTails() {
   const block = document.createElement("div");
   block.id = "block";
   for (let i = 0; i < height * width; i++) {
-    let [c1, c2, c3] = colorsPalette[Math.round(Math.random() * (colorsPalette.length - 1))];
+    let [c1, c2, c3] = colorsPalette[Math.floor(Math.random() * colorsPalette.length)];
     const tile = document.createElement("div");
     tile.id = i;
     //colors
